@@ -1,0 +1,68 @@
+# E007 ending round (user decision 2026-11-28, follow-up of E006): tuning sequences for the one
+# writer-prompt round targeted at endings and changes. Development sequences that E006 did NOT
+# score: the second rho-10 sequence and the rho-30 sequence of each family (10 sequences, 140 gold
+# endings). E006's five `*-rho10-L200-000` sequences are the confirmation set and are scored once,
+# with configs/experiments/E006-graph-quality-sequences.yaml.
+#   uv run python -m grace.cli.graph_quality extract-sequences --config configs/experiments/E007-ending-round.yaml \
+#       --experiment E007 --writer-url http://localhost:8253/v1 --run-parent "$PROJECT_ROOT/runs/E007/artifacts/w02-E007"
+#   uv run python -m grace.cli.graph_quality score-sequences <probe-run-dir> --config configs/experiments/E007-ending-round.yaml \
+#       --experiment E007 --judge-url http://localhost:8252/v1 --run-parent "$PROJECT_ROOT/runs/E007/artifacts/w02-E007"
+experiment: E007
+seed: 0
+writer_config: configs/common/writer.yaml   # main configuration: session units
+model_config: configs/models/qwen3-32b.yaml
+serving:
+  model: Qwen/Qwen3-32B@9216db5781bf21249d130ec9da846c4624c16137
+  server: shared vLLM server of s00-super (runs/compute.yaml, port 8253)
+
+sequences:
+  split: dev
+  # configs/benchmarks/change-seq.yaml is not bound yet: the development set rendered by the D006
+  # model renderer in T015 run T015-devmodel-20261125T192037Z (paths relative to PROJECT_ROOT).
+  dataset:
+    benchmark: change-seq
+    version: dataset
+    data_root: runs/T015/artifacts/T015-devmodel-20261125T192037Z
+    manifest_sha256: 9b147185381de5982ad94560e27d8eb1b20e1d7c41347db6cc66a736355c515a
+    splits:
+      dev:
+        kind: development
+        rule: every sequence of the T015 model-rendered development set
+        histories:
+          - apartment-search-rho1-L200-000
+          - apartment-search-rho10-L200-000
+          - apartment-search-rho10-L200-001
+          - apartment-search-rho3-L200-000
+          - apartment-search-rho30-L200-000
+          - car-rental-rho1-L200-000
+          - car-rental-rho10-L200-000
+          - car-rental-rho10-L200-001
+          - car-rental-rho3-L200-000
+          - car-rental-rho30-L200-000
+          - flight-travel-rho1-L200-000
+          - flight-travel-rho10-L200-000
+          - flight-travel-rho10-L200-001
+          - flight-travel-rho3-L200-000
+          - flight-travel-rho30-L200-000
+          - hotel-stay-rho1-L200-000
+          - hotel-stay-rho10-L200-000
+          - hotel-stay-rho10-L200-001
+          - hotel-stay-rho3-L200-000
+          - hotel-stay-rho30-L200-000
+          - train-travel-rho1-L200-000
+          - train-travel-rho10-L200-000
+          - train-travel-rho10-L200-001
+          - train-travel-rho3-L200-000
+          - train-travel-rho30-L200-000
+  # Tuning set: not scored by E006 (its five are the *-rho10-L200-000 sequences).
+  ids: [apartment-search-rho10-L200-001, car-rental-rho10-L200-001, flight-travel-rho10-L200-001, hotel-stay-rho10-L200-001, train-travel-rho10-L200-001,
+        apartment-search-rho30-L200-000, car-rental-rho30-L200-000, flight-travel-rho30-L200-000, hotel-stay-rho30-L200-000, train-travel-rho30-L200-000]
+
+scoring:
+  predicate_match: judge
+  judge:
+    model_config: configs/models/qwen3-8b.yaml
+    prompt: predicate-judge
+    max_tokens: 4
+    temperature: 0.0
+    seed: 0

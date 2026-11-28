@@ -45,6 +45,14 @@ How good is the extracted graph itself: claim precision, recall and F1, attribut
 | E006-20261128T084142Z-ee92 | 2026-11-28 | completed (ingest, main configuration, LongMemEval-S dev other 31 histories) | `bd232a93a172881f6a49565ed4502ddddcd23e76` | `runs/E006/artifacts/w02-E006/E006/E006-20261128T084142Z-ee92/report.yaml` |
 | E006-20261128T093835Z-e4b6 | 2026-11-28 | completed (formal: answer coverage, LongMemEval-S main strata, of 6288) | `d3572cea5b9318770ca481545ed872d76822812e` | `runs/E006/artifacts/w02-E006/E006/E006-20261128T093835Z-e4b6/report.yaml` |
 | E006-20261128T092653Z-6d20 | 2026-11-28 | completed (formal: answer coverage, LongMemEval-S other strata, of ee92) | `d3572cea5b9318770ca481545ed872d76822812e` | `runs/E006/artifacts/w02-E006/E006/E006-20261128T092653Z-6d20/report.yaml` |
+| E006-20261128T111659Z-5f3a | 2026-11-28 | completed (superseded before scoring: controlled-sequence extraction with the rejected E007 iteration 3; never scored) | `f839d3ecfa7c04492892362ec9058f6406fd745a` | `runs/E006/artifacts/w02-E007/E006/E006-20261128T111659Z-5f3a/report.yaml` |
+| E006-20261128T111659Z-824d | 2026-11-28 | completed (superseded before scoring: segment-wise extraction with the rejected E007 iteration 3; never scored) | `f839d3ecfa7c04492892362ec9058f6406fd745a` | `runs/E006/artifacts/w02-E007/E006/E006-20261128T111659Z-824d/report.yaml` |
+| E006-20261128T112035Z-b09d | 2026-11-28 | completed (probe: controlled sequences, final writer prompt of the E007 ending round) | `511d851af5a416cd4c5ace83e0c1dae0a422dd58` | `runs/E006/artifacts/w02-E007/E006/E006-20261128T112035Z-b09d/report.yaml` |
+| E006-20261128T112035Z-fa8b | 2026-11-28 | completed (probe: segment-wise extraction, final writer prompt, 40 segments) | `511d851af5a416cd4c5ace83e0c1dae0a422dd58` | `runs/E006/artifacts/w02-E007/E006/E006-20261128T112035Z-fa8b/report.yaml` |
+| E006-20261128T112541Z-9386 | 2026-11-28 | completed (formal: controlled-sequence score of b09d, final writer prompt) | `511d851af5a416cd4c5ace83e0c1dae0a422dd58` | `runs/E006/artifacts/w02-E007/E006/E006-20261128T112541Z-9386/report.yaml` |
+| E006-20261128T112541Z-d4d2 | 2026-11-28 | completed (formal: segment-wise score of fa8b, final writer prompt) | `511d851af5a416cd4c5ace83e0c1dae0a422dd58` | `runs/E006/artifacts/w02-E007/E006/E006-20261128T112541Z-d4d2/report.yaml` |
+| E006-20261128T113433Z-87ea | 2026-11-28 | completed (formal: LoCoMo full-history score of ingest E007-20261128T112542Z-c8d3, final writer prompt) | `511d851af5a416cd4c5ace83e0c1dae0a422dd58` | `runs/E006/artifacts/w02-E007/E006/E006-20261128T113433Z-87ea/report.yaml` |
+| E006-20261128T113435Z-aa0b | 2026-11-28 | completed (formal: answer coverage, LoCoMo, of ingest E007-20261128T112542Z-c8d3) | `511d851af5a416cd4c5ace83e0c1dae0a422dd58` | `runs/E006/artifacts/w02-E007/E006/E006-20261128T113435Z-aa0b/report.yaml` |
 
 ## Results
 
@@ -106,6 +114,23 @@ Other measures:
   - main-text strata (`e4b6`, 67 questions): evidence messages carry a claim for 1.0 of 65 (all of them 0.892); answer words in the evidence claims 0.154 (at least half 0.262); anywhere in the graph 0.358. Per stratum (in evidence claims / anywhere): knowledge-update 0.286 / 0.400 (n 15), temporal-reasoning 0.231 / 0.385 (26), multi-session 0.0 / 0.308 (26; the answers are counts and aggregates).
   - other 31 histories (`6d20`): evidence messages carry a claim for 0.5 of 30. Per stratum: single-session-assistant 1 of 11 (the writer extracts little from assistant turns), preference 3 of 6, single-session-user 0.846 of 13.
 
+### At the final writer prompt (E007 ending round, 2026-11-28)
+
+The writer prompt was revised once more for endings (E007 Log and Results, "Ending round"); everything else as in the formal runs above. The rows below supersede them as E006's numbers at the final writer configuration; the earlier rows stay as the record of the previous prompt.
+
+| Run | Benchmark (reading) | Writer claims | Level | Precision | Recall | F1 |
+| --- | --- | --- | --- | --- | --- | --- |
+| E006-20261128T113433Z-87ea (ingest `E007-20261128T112542Z-c8d3`) | LoCoMo (full history, 16 segments) | 205 | anchor | 0.322–0.3561 | 0.2776–0.3646 | 0.2982–0.3603 |
+| | | | loose | 0.2146–0.2341 | 0.1825–0.2431 | 0.1973–0.2385 |
+| | | | strict | 0.0683–0.0829 | 0.0646–0.0773 | 0.0664–0.08 |
+| E006-20261128T112541Z-d4d2 | all 40 segments (segment-wise) | 409 | loose | 0.2836–0.335 | 0.196–0.2886 | 0.2318–0.3101 |
+| | LoCoMo (segment-wise) | 213 | loose | 0.23–0.2441 | 0.1977–0.2707 | 0.2126–0.2567 |
+| | LongMemEval-S (segment-wise, optimistic bound) | 196 | loose | 0.3418–0.4337 | 0.195–0.3032 | 0.2483–0.3569 |
+
+- **Controlled sequences (`9386`, extraction `b09d`)**, same five sequences as `cda5`: endings 17 of 35 matched (recall 0.4857, was 0.2571), 17 of 50 writer endings match (precision 0.34, was 0.5294); negated only 12 (was 20). Ending-evidence check: 11 drops, 2 false (rate 0.1818), 2 gold endings lost to drops. Claim occurrences: loose precision 0.659, recall 0.6442 (201 matched; 312 gold, 305 writer), was 0.7292 / 0.7853; anchor 0.7607 / 0.7436. Fields on loose matches: function 0.7413, polarity 0.995. 33 of the 111 unmatched gold occurrences are `worksIn` (was 4 of 67): the writer uses `jobTitle` for a field of work.
+- **Answer-coverage upper bound, LoCoMo (`aa0b`)**: evidence messages carry a claim for 0.8675 of 302 questions (all of them 0.7185); every content word of the reference in the evidence claims 0.1887, at least half 0.3146; anywhere in the graph 0.25 of 308.
+- LongMemEval-S ingests at the final prompt: E007 runs `E007-20261128T112648Z-1453` and `E007-20261128T112653Z-065d` (E007 Runs); their answer coverage is not rescored here.
+
 ## Conclusion
 
 Pending.
@@ -136,3 +161,4 @@ Pending.
   - Finding for the writer prompt and for T019/T014: on controlled sequences most changes and corrections ("I don't speak Dutch anymore") are written as a negative stance on the old claim, not as an ending, so the old claim stays current (20 of 35 gold endings).
   - Not done: the split of graph-channel misses into writer, planner (T023) and fragment-selection errors; human review of the gold.
 - 2026-11-28: recorded done with a remark by the integration owner (s00-super): formal runs at the main configuration complete (PRs #168, #169). Remark: gold is the agent pair pending the human review, so precision and recall are bounds; writer, planner and fragment-selection errors are not yet separated. The merged review file was regenerated with the tightened matcher (699 rows; 24 former pairs are now two single claims each).
+- 2026-11-28: rescored at the final writer prompt by worker session `w02-E007` (E007 ending round, Issue #141): controlled sequences `b09d`/`9386`, segment-wise `fa8b`/`d4d2`, LoCoMo full history `87ea` and answer coverage `aa0b` on the new shared ingest `E007-20261128T112542Z-c8d3` (numbers in Results, "At the final writer prompt"). The new shared ingests (`E007-20261128T112542Z-c8d3` LoCoMo, `E007-20261128T112648Z-1453` and `E007-20261128T112653Z-065d` LongMemEval-S) supersede `21cb`, `6288` and `ee92`. `5f3a` and `824d` were extracted with a prompt iteration that E007 rejected on its tuning set and were never scored.

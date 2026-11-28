@@ -460,6 +460,9 @@ def extract_sequences(args: argparse.Namespace) -> int:
                 messages[m.history_id].append(m)
         say(f"{len(wanted)} sequences, {sum(len(v) for v in messages.values())} messages, "
             f"granularity={writer_config.granularity.name}")
+        if args.workers > 1:   # pyshacl is not thread safe (E007 run E007-20261128T110034Z-b2de)
+            from grace.cli.writer_ablation import serialise_shacl
+            serialise_shacl()
 
         def one(sid):
             updates = drive_history(histories[sid], messages[sid],

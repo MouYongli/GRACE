@@ -181,7 +181,7 @@ prompts:
       speaker, message (the new message, last).
   extract-claims:
     call_type: extract
-    sha256: 0ca40b38db348b2e8353b213ba632fd1be9e804390c345553bd794d1ec213432
+    sha256: d24611419e20717423ed3dcb3bb3b1845bdf0e4b8660ab7d0cc6daa5c798d9f1
     schema: llm/extract-claims  # resources/schemas/llm/extract-claims.json
     schema_sha256: 462ace0dca5d13c10724f432c0d8859fc466773ad4a0ef8829b2cf965de522f0
     note: >-
@@ -195,4 +195,9 @@ prompts:
       (ablation G; the user's one prompt round on development data before D012): facts wrapped
       in chit-chat, easily missed kinds of facts, a per-message check, feelings only through what
       they are about; schema array bounds widened to 96 claims, 48 stances, 16 same_as for
-      session granularity.
+      session granularity. Ending round (E007 follow-up of E006, user decision of 2026-11-28; tuned on
+      controlled development sequences E006 did not score): an ending is written only as a
+      negative stance with `ends` (never also as a negative claim, which the program would keep
+      instead; a negative claim only for what is not a known claim), with the function of the claim's earlier stance (request for a requirement), a
+      quote naming the old value, and also on a change that names the old value; one invented
+      example.
